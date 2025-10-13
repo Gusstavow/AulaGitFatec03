@@ -11,7 +11,7 @@ form.addEventListener("submit", (e) => {
         mensagem.style.color = "#03dac6";
         mensagem.textContent = "Login realizado com sucesso!";
     } else {
-        mensagem.textContent = "ário ou senha incorretos.";
+        mensagem.textContent = "Usuário ou senha incorretos.";
     }
 });
 
