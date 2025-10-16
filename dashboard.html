@@ -1,11 +1,145 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dashboard Simples</title>
+  <style>
+    :root{
+      --bg:#f4f6fb;
+      --card:#ffffff;
+      --accent:#2563eb;
+      --muted:#6b7280;
+      --glass: rgba(16,24,40,0.04);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:var(--bg);color:#0f172a}
+    .layout{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
+    .sidebar{background:linear-gradient(180deg,#0f172a 0,#0b1a3a 100%);color:#fff;padding:20px}
+    .brand{font-weight:700;font-size:18px;margin-bottom:18px}
+    .nav{display:flex;flex-direction:column;gap:8px}
+    .nav a{color:rgba(255,255,255,0.9);text-decoration:none;padding:8px;border-radius:8px;font-size:14px}
+    .nav a:hover{background:rgba(255,255,255,0.06)}
+    .main{padding:24px}
+    .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+    .welcome-card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 18px var(--glass)}
+    .welcome-title{margin:0 0 6px;font-size:18px}
+    .welcome-sub{margin:0;color:var(--muted);font-size:13px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:16px}
+    .stat{background:var(--card);padding:14px;border-radius:10px;box-shadow:0 6px 18px var(--glass)}
+    .stat h3{margin:0;font-size:22px}
+    .stat p{margin:6px 0 0;color:var(--muted);font-size:13px}
+    .card-small{background:var(--card);padding:12px;border-radius:10px;box-shadow:0 6px 18px var(--glass);margin-top:14px}
+    .muted{color:var(--muted)}
+    footer{margin-top:26px;color:var(--muted);font-size:13px}
+    @media (max-width:720px){ .layout{grid-template-columns:1fr} .sidebar{display:flex;flex-direction:row;gap:12px;overflow:auto} }
+  </style>
 </head>
 <body>
-    <h1>ISSO É UMA DASHBOARD</h1>
+  <div class="layout">
+    <aside class="sidebar" aria-label="Navegação">
+      <div class="brand">Minha App</div>
+      <nav class="nav" aria-label="Menu principal">
+        <a href="#" aria-current="page">Visão geral</a>
+        <a href="#">Usuários</a>
+        <a href="#">Relatórios</a>
+        <a href="#">Configurações</a>
+      </nav>
+      <div style="flex:1"></div>
+      <div class="muted" style="font-size:12px;margin-top:18px">Versão 1.0</div>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div>
+          <strong id="greeting">Olá</strong>
+          <div class="muted" id="timeDesc"></div>
+        </div>
+        <div class="muted">Usuário: <span id="userName">Visitante</span></div>
+      </div>
+
+      <section class="welcome-card" aria-labelledby="welcomeTitle">
+        <h2 id="welcomeTitle" class="welcome-title">Bem-vindo(a), <span id="welcomeName">Visitante</span> 👋</h2>
+        <p class="welcome-sub">Este é um painel simples para você começar. Aqui você encontra uma visão geral rápida das métricas principais.</p>
+
+        <div class="grid" aria-hidden="false">
+          <div class="stat" role="region" aria-label="Total de usuários">
+            <h3 id="totalUsers">0</h3>
+            <p>Total de usuários</p>
+          </div>
+          <div class="stat" role="region" aria-label="Atividades hoje">
+            <h3 id="actToday">0</h3>
+            <p>Atividades hoje</p>
+          </div>
+          <div class="stat" role="region" aria-label="Novos cadastros">
+            <h3 id="newSignups">0</h3>
+            <p>Novos cadastros</p>
+          </div>
+          <div class="stat" role="region" aria-label="Taxa de conversão">
+            <h3 id="conversion">0%</h3>
+            <p>Taxa de conversão</p>
+          </div>
+        </div>
+
+        <div class="card-small" id="quickActions">
+          <strong>Ações rápidas</strong>
+          <div class="muted" style="margin-top:8px">Você pode personalizar este painel editando o HTML/JS.</div>
+        </div>
+      </section>
+
+      <footer>
+        © <span id="year"></span> Minha App — Painel simples
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    // --- CONFIGURAÇÃO RÁPIDA ---
+    // Troque o nome aqui para exibir outro nome na saudação:
+    const NOME_USUARIO = "Gustavo";
+
+    // --- lógica de saudação baseada na hora ---
+    function saudacaoPorHora() {
+      const d = new Date();
+      const h = d.getHours();
+      if (h >= 5 && h < 12) return "Bom dia";
+      if (h >= 12 && h < 18) return "Boa tarde";
+      return "Boa noite";
+    }
+
+    // Exibe hora amigável
+    function formatoHora(d) {
+      return d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    }
+
+    // Simula métricas (exemplo)
+    function carregarMetricas() {
+      // Exemplo estático — substitua por fetch() se desejar dados reais
+      document.getElementById('totalUsers').textContent = 1240;
+      document.getElementById('actToday').textContent = 87;
+      document.getElementById('newSignups').textContent = 12;
+      document.getElementById('conversion').textContent = "3.4%";
+    }
+
+    // Inicialização
+    (function init() {
+      const nome = NOME_USUARIO || "Visitante";
+      document.getElementById('userName').textContent = nome;
+      document.getElementById('welcomeName').textContent = nome;
+
+      const agora = new Date();
+      document.getElementById('greeting').textContent = saudacaoPorHora() + ",";
+      document.getElementById('timeDesc').textContent = "Agora são " + formatoHora(agora);
+      document.getElementById('year').textContent = agora.getFullYear();
+
+      carregarMetricas();
+
+      // Atualiza o relógio a cada minuto
+      setInterval(() => {
+        const d = new Date();
+        document.getElementById('timeDesc').textContent = "Agora são " + formatoHora(d);
+      }, 60_000);
+    })();
+  </script>
 </body>
 </html>
